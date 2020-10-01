@@ -31,6 +31,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // логгер запросов
 app.use(requestLogger);
 
+// краш-тест
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 // роуты для пост запросов регистрация и логин
 app.post('/signup', celebrate(authSchema), createUser);
 app.post('/signin', celebrate(authSchema), login);
@@ -58,6 +65,9 @@ app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
   if (err.name === 'ValidationError') {
     return res.status(401).send({ message: 'Введены некорректные данные!' });
+  }
+  if (err.code === 11000) {
+    return res.status(401).send({ message: 'Пользователь с таким email уже зарегистрирован!' });
   }
   return res
     .status(statusCode)

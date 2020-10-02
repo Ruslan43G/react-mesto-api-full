@@ -61,13 +61,14 @@ app.use(errorLogger);
 app.use(errors());
 
 // обработчик ошибок
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
   if (err.name === 'ValidationError') {
     return res.status(401).send({ message: 'Введены некорректные данные!' });
   }
   if (err.code === 11000) {
-    return res.status(401).send({ message: 'Пользователь с таким email уже зарегистрирован!' });
+    return res.status(409).send({ message: 'Пользователь с таким email уже зарегистрирован!' });
   }
   return res
     .status(statusCode)

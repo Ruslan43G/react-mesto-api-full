@@ -7,4 +7,3 @@ const tokenSchema = {
 };
 
 module.exports = tokenSchema;
-

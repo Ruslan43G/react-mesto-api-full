@@ -14,9 +14,6 @@ module.exports.createUser = (req, res, next) => {
     .then((hash) => {
       const { email } = req.body;
       userModel.create({
-        name: 'Жак-Ив Кусто',
-        about: 'Исследователь океана',
-        avatar: 'https://www.culture.ru/storage/images/7402348bcfde8ad237620a095b568c12/f33b1160f0b1e42a11f80583a84f5a9f.jpeg',
         email,
         password: hash,
       })

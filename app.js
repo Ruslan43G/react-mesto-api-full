@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { celebrate, errors } = require('celebrate');
@@ -23,6 +24,8 @@ mongoose.connect('mongodb://localhost:27017/mesto', {
 
 // задаем порт
 const { PORT = 3000 } = process.env;
+
+app.use(cors({ origin: true }));
 
 // подключаем мидлвэр bodyparser
 app.use(bodyParser.json());

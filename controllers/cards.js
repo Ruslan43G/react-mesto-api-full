@@ -36,3 +36,24 @@ module.exports.deleteCard = (req, res, next) => {
     .then((success) => res.send(success))
     .catch(next);
 };
+// ставим лайк на карточку
+module.exports.likeCard = (req, res, next) => {
+  cardModel.findOneAndUpdate({ _id: req.params.cardId },
+    { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
+    { new: true })
+    .orFail(() => { throw new NotFoundError('Картчока не найдена'); })
+    .then((card) => res.status(201).send(card))
+    .catch(next);
+};
+
+// удаляем лайк с карточки
+module.exports.dislikeCard = (req, res, next) => {
+  cardModel.findOneAndUpdate(
+    { _id: req.params.cardId },
+    { $pull: { likes: req.user._id } }, // убрать _id из массива
+    { new: true },
+  )
+    .orFail(() => { throw new NotFoundError('Картчока не найдена'); })
+    .then((card) => res.status(201).send(card))
+    .catch(next);
+};

@@ -55,3 +55,27 @@ module.exports.showAllUsers = (req, res, next) => {
     .then((users) => res.status(200).send(users))
     .catch(next);
 };
+
+// обновляем данные ползьзователя
+module.exports.updateUserProfile = (req, res, next) => {
+  const id = req.user._id;
+  const { name, about } = req.body;
+  userModel.findOneAndUpdate({ _id: id },
+    { name, about },
+    { new: true, runValidators: true })
+    .orFail(() => { throw new InvalidDataError('Введены некорректные данные!'); })
+    .then((user) => res.status(201).send(user))
+    .catch(next);
+};
+
+// обновляем аватар ползьзователя
+module.exports.updateUserAvatar = (req, res, next) => {
+  const id = req.user._id;
+  const { avatar } = req.body;
+  userModel.findOneAndUpdate({ _id: id },
+    { avatar },
+    { new: true, runValidators: true })
+    .orFail(() => { throw new InvalidDataError('Введены некорректные данные!'); })
+    .then((user) => res.status(201).send(user))
+    .catch(next);
+};

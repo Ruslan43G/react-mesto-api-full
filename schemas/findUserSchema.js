@@ -6,8 +6,7 @@ const findUserSchema = {
       .string()
       .alphanum()
       .length(24)
-      .hex()
-      .required(),
+      .hex(),
   }),
 };
 

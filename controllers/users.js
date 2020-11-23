@@ -40,7 +40,8 @@ module.exports.login = (req, res, next) => {
 
 // ищем пользователя
 module.exports.findUser = (req, res, next) => {
-  userModel.findById(req.params.userId)
+  const id = req.user._id;
+  userModel.findById(id)
     .orFail(() => { throw new NotFoundError('Пользователь с таким id не найден!'); })
     .then((user) => {
       res.send({ user });

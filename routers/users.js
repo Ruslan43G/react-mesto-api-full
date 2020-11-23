@@ -14,7 +14,7 @@ const updateAvatarSchema = require('../schemas/updateAvatarSchema');
 // Запрос на поиск всех юзеров
 user.get('/', showAllUsers);
 // Поиск юзера по id
-user.get('/:userId', celebrate(findUserSchema), findUser);
+user.get('/me', findUser);
 // Обновление данных пользователя
 user.patch('/me', celebrate(updateProfileSchema), updateUserProfile);
 // Обновление аватара
